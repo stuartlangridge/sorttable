@@ -13,3 +13,4 @@ Show arrows on page load
 Handle multiple header rows
 Handle empty rows/cells
 Provide debug console to see what sorttable is doing
+Make JSHint clean
