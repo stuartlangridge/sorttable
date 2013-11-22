@@ -1,0 +1,15 @@
+Planned things to do in sorttable v3
+
+Full test suite
+Maintain "does not need a library"
+Maintain "just include sorttable and it works without configuration"
+Maintain compatibility back to IE6
+Sort on page load
+Handle colspanned rows (http://kryogenix.org/days/2013/07/26/why-sorttable-doesnt-handle-colspanned-rows)
+Polyfill HTML5 sortable attribute (http://www.whatwg.org/specs/web-apps/current-work/multipage/tabular-data.html#table-sorting-model)
+Move config options to data-* attributes
+Handle multiple sortable tables on a page
+Show arrows on page load
+Handle multiple header rows
+Handle empty rows/cells
+Provide debug console to see what sorttable is doing
