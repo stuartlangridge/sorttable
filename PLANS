@@ -14,3 +14,7 @@ Handle multiple header rows
 Handle empty rows/cells
 Provide debug console to see what sorttable is doing
 Make JSHint clean
+Obfuscate </script> in comment to avoid breaking older Firefoxes.
+Replace literal high-bit-set characters in regexp with escapes to avoid unicode hassle: if (text.match(/^-?[\xA2\xA3\xA5\u20A5\u20B9\u20AC\u20A1\u20B5\x24]?[\d,.]+%?$/)) or similar
+Work when there are more then 256 rows
+
