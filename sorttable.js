@@ -69,7 +69,7 @@ sorttable = {
         table.appendChild(tfo);
       }
       for (var i=0; i<sortbottomrows.length; i++) {
-        tfo.appendChild(sortbottomrows[i]);
+        table.tFoot.appendChild(sortbottomrows[i]);
       }
       delete sortbottomrows;
     }
