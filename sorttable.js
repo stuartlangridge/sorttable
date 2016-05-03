@@ -1,6 +1,6 @@
 /*
   SortTable
-  version 2 - Virgile Högman patch 2.1.0
+  version 2 - Virgile Högman patch 2.2.0
   7th April 2007
   Stuart Langridge, http://www.kryogenix.org/code/browser/sorttable/
 
@@ -89,9 +89,12 @@ sorttable = {
 	      // make it clickable to sort
 	      headrow[i].sorttable_columnindex = i;
 	      headrow[i].sorttable_tbody = table.tBodies[0];
-        // HerrVigg
-        // if makesortable is called several times on same table, different handlers were stacked!
+        // patch Virgile Högman - repeated handlers
+        // if makesortable is called several times on same table,
+        // different handlers could be stacked and cancel the sort!
         // innerSort function must be unique for this instance of sorttable
+        // and therefore stored in object (anonymous function can't be used)
+        // so that addListener will not register same handler again
         // see section "Multiple identical event listeners" here:
         //https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
 	      dean_addEvent(headrow[i],"click", sorttable.innerSort);
@@ -160,8 +163,6 @@ sorttable = {
     //sorttable.shaker_sort(row_array, this.sorttable_sortfunction);
     /* and comment out this one */
     row_array.sort(this.sorttable_sortfunction);
-    /* HerrVigg reverse order on first click */
-    row_array.reverse();
 
     tb = this.sorttable_tbody;
     for (var j=0; j<row_array.length; j++) {
@@ -177,7 +178,7 @@ sorttable = {
     for (var i=0; i<table.tBodies[0].rows.length; i++) {
       text = sorttable.getInnerText(table.tBodies[0].rows[i].cells[column]);
       if (text != '') {
-        // patch Virgile Högman for spaces before %
+        // patch Virgile Högman for spaces and tabs before %
         if (text.match(/^-?[£$¤]?[\d,.]+[ \t]*%?$/)) {
           return sorttable.sort_numeric;
         }
@@ -217,7 +218,7 @@ sorttable = {
     hasInputs = (typeof node.getElementsByTagName == 'function') &&
                  node.getElementsByTagName('input').length;
 
-    if (node.getAttribute("sorttable_customkey") != null) {
+    if (node.nodeType == 1 && node.getAttribute("sorttable_customkey") != null) {
       return node.getAttribute("sorttable_customkey");
     }
     else if (typeof node.textContent != 'undefined' && !hasInputs) {
@@ -275,6 +276,7 @@ sorttable = {
     return aa-bb;
   },
   sort_alpha: function(a,b) {
+    return a[0].localeCompare(b[0]);    
     if (a[0]==b[0]) return 0;
     if (a[0]<b[0]) return -1;
     return 1;
