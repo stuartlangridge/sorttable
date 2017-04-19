@@ -12,7 +12,7 @@
     "table",
     "sorting"
   ],
-  "license": "X11",
+  "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",
