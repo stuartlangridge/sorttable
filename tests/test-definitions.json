@@ -13,12 +13,50 @@
                 ["1", "3", "2", "4"]
             ]
         },
+        "html": {
+            "rows": [
+                ["1", "<a>dog</a>"],
+                ["2", "<b>apple</b>"],
+                ["3", "<i>banana</i>"],
+                ["4", "<s>cat</s>"]
+            ],
+            "expected_column_1_after_sort_by_column_n": [
+                ["1", "2", "3", "4"],
+                ["2", "3", "4", "1"]
+            ],
+            "notes": "HTML elements should be ignored"
+        },
+        "html_with_inputs": {
+            "rows": [
+                ["1", "<input type=hidden value=160><a href='http://example.com' target=_blank>data</A>"],
+                ["2", "<b>zzzz last</b>"],
+                ["3", "<i>banana</i>"],
+                ["4", "<s>cat</s>"]
+            ],
+            "expected_column_1_after_sort_by_column_n": [
+                ["1", "2", "3", "4"],
+                ["3", "4", "1", "2"]
+            ],
+            "notes": "Handle inputs and other elements without content correctly"
+        },
         "numbers": {
             "rows": [
                 ["1", "1"],
                 ["2", "101"],
                 ["3", "5"],
                 ["4", "10"]
+            ],
+            "expected_column_1_after_sort_by_column_n": [
+                ["1", "2", "3", "4"],
+                ["1", "3", "4", "2"]
+            ]
+        },
+        "mixed_numbers": {
+            "rows": [
+                ["1", "1000"],
+                ["2", "2,000,000"],
+                ["3", "4,000"],
+                ["4", "5,000"]
             ],
             "expected_column_1_after_sort_by_column_n": [
                 ["1", "2", "3", "4"],
