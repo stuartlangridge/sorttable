@@ -1,0 +1,23 @@
+{
+  "name": "sorttable",
+  "main": "sorttable.js",
+  "version": "2.0.0",
+  "homepage": "https://github.com/stuartlangridge/sorttable",
+  "authors": [
+    "Stuart Langridge"
+  ],
+  "description": "JavaScript client-side sortable tables.",
+  "keywords": [
+    "dom",
+    "table",
+    "sorting"
+  ],
+  "license": "X11",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
