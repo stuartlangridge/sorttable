@@ -405,15 +405,18 @@ function dean_addEvent(element, type, handler) {
 // a counter used to create unique IDs
 dean_addEvent.guid = 1;
 
-function removeEvent(element, type, handler) {
-	if (element.removeEventListener) {
-		element.removeEventListener(type, handler, false);
-	} else {
-		// delete the event handler from the hash table
-		if (element.events && element.events[type]) {
-			delete element.events[type][handler.$$guid];
-		}
-	}
+if( typeof removeEvent !== 'function')
+{
+  var removeEvent = function (element, type, handler) {
+  	if (element.removeEventListener) {
+  		element.removeEventListener(type, handler, false);
+  	} else {
+  		// delete the event handler from the hash table
+  		if (element.events && element.events[type]) {
+  			delete element.events[type][handler.$$guid];
+  		}
+  	}
+  }
 }
 
 function handleEvent(event) {
@@ -498,4 +501,3 @@ var forEach = function(object, block, context) {
 		resolve.forEach(object, block, context);
 	}
 };
-
