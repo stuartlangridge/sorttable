@@ -1,0 +1,26 @@
+Planned things to do in sorttable v3
+
+Full test suite
+Publish test suite and make it easy for someone to run it and report back
+Track runs of the test suite and record data (google analytics?)
+Maintain "does not need a library"
+Maintain "just include sorttable and it works without configuration"
+Maintain compatibility back to IE6
+Sort on page load
+Handle colspanned rows (http://kryogenix.org/days/2013/07/26/why-sorttable-doesnt-handle-colspanned-rows)
+Polyfill HTML5 sortable attribute (http://www.whatwg.org/specs/web-apps/current-work/multipage/tabular-data.html#table-sorting-model)
+Move config options to data-* attributes
+Handle multiple sortable tables on a page
+Show arrows on page load
+Handle multiple header rows
+Handle empty rows/cells
+Provide debug console to see what sorttable is doing
+Make JSHint clean
+Obfuscate </script> in comment to avoid breaking older Firefoxes.
+Replace literal high-bit-set characters in regexp with escapes to avoid unicode hassle: if (text.match(/^-?[\xA2\xA3\xA5\u20A5\u20B9\u20AC\u20A1\u20B5\x24]?[\d,.]+%?$/)) or similar
+Work when there are more then 256 rows (added to test suite)
+Accessibility stuff
+Fix getinnertext to work with many different types of content (unicode, html, emptiness, text)
+Fix mixed content warning in I by not using javascript:void as link dest: use :// instead or similar
+Numeric comparisons are the wrong way around: should be bb-aa not aa-bb
+A cell with a single "," in it makes sorttable diagnose the column as containing floats. See email from Michel R
