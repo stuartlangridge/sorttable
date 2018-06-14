@@ -132,10 +132,107 @@ module.exports = function(grunt) {
         });
     });
 
+    grunt.registerTask('run-tests-with-puppeteer',
+        'Execute all the test files with puppeteer', function() {
+
+        var path = require('path');
+        var fs = require("fs"),
+            rootdir = __dirname + "/tests/";
+        var done = this.async();
+        const puppeteer = require('puppeteer');
+
+        function fileUrl(str) {
+            var pathName = path.resolve(str).replace(/\\/g, '/');
+            // Windows drive letter must be prefixed with a slash
+            if (pathName[0] !== '/') { pathName = '/' + pathName; }
+            return encodeURI('file://' + pathName);
+        };
+
+        const testFn = () => {
+            var tf = []
+            function ass(statement, truefalse) { tf.push([statement, truefalse]); }
+
+            var tbl = document.querySelector("table.sortable");
+            /* Check the test was set up right: that is, that we
+               have the same number of tuples in SORTRESULTS as
+               we do columns, and that a SORTRESULTS tuple has the
+               same number of entries as there are rows in a column 
+               (note that there will be one extra row, because
+               of the column headers) 
+            */
+            ass("SORTRESULTS has an entry per column " +
+                "(comparing number of SORTRESULTS=" +
+                SORTRESULTS.length + " with number of cells in table row 0=" +
+                tbl.rows[0].cells.length + ")",
+                SORTRESULTS.length === tbl.rows[0].cells.length);
+            ass("SORTRESULTS entries have one item per row",
+                SORTRESULTS[0].length === tbl.rows.length - 1);
+
+            var evObj;
+            for (var columnindex=0; columnindex < SORTRESULTS.length; columnindex++) {
+                // Generate a click on the column header
+                evObj = document.createEvent('MouseEvents');
+                evObj.initEvent( 'click', true, true );
+                tbl.rows[0].cells[columnindex].dispatchEvent(evObj);
+
+                // Now check each item in column 1 against SORTRESULTS
+                // The -1 stuff in here is because the rows in the *table* go
+                // from 1 to N and skip 0 because that's where the column headers are
+                // but the entries in the SORTRESULTS tuple go from 0 to N-1
+                for (var rowindex=1; rowindex < tbl.rows.length; rowindex++) {
+                    ass("Sorted on column " + (columnindex+1) + "; " +
+                        "comparing row " + rowindex + " predicted value '" +
+                        SORTRESULTS[columnindex][rowindex-1] +
+                        "' with actual value '" +
+                        tbl.rows[rowindex].cells[0].innerHTML + "'",
+                        tbl.rows[rowindex].cells[0].innerHTML == SORTRESULTS[columnindex][rowindex-1]);
+                }
+            }
+            return tf;
+        }
+
+
+        fs.readdir(rootdir, function(err, files) {
+            var testFiles = [];
+            files.forEach(function(fn) {
+                if (fn.match(/^test-.*\.html$/)) {
+                    testFiles.push(fn);
+                }
+            });
+
+            function next() {
+                var fn = testFiles.shift();
+                if (!fn) {
+                    done();
+                    return;
+                }
+                console.log("=== Testing: ", fn);
+                var ffn = fileUrl(rootdir + fn);
+
+                puppeteer.launch({executablePath: '/usr/bin/chromium-browser'}).then(async browser => {
+                    const page = await browser.newPage();
+                    await page.goto(ffn);
+                    const results = await page.evaluate(testFn);
+                    await browser.close();
+
+                    let errs = results.filter(([text, passed]) => { return !passed; }).map(([text, passed]) => { return text; })
+                    if (errs.length > 0) {
+                        console.error("Failed tests");
+                        console.log(errs.join("\n"));
+                    }
+                }).then(function() {
+                    next();
+                });
+            }
+
+            next();
+        });
+    });
+
     // Default task(s).
     grunt.registerTask('test', [
         'build-tests',
-        'run-tests-with-wru',
+        'run-tests-with-puppeteer',
         'jshint'
     ]);
 
