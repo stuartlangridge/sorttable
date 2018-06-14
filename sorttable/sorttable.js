@@ -72,7 +72,7 @@ sorttable = {
       for (i=0; i<sortbottomrows.length; i++) {
         tfo.appendChild(sortbottomrows[i]);
       }
-      delete sortbottomrows;
+      //delete sortbottomrows;
     }
 
     // work through each column and calculate its type
@@ -158,7 +158,7 @@ sorttable = {
             tb.appendChild(row_array[j][1]);
           }
 
-          delete row_array;
+          //delete row_array;
         });
       }
     }
@@ -254,7 +254,7 @@ sorttable = {
     for (i=newrows.length-1; i>=0; i--) {
        tbody.appendChild(newrows[i]);
     }
-    delete newrows;
+    //delete newrows;
   },
 
   /* sort functions

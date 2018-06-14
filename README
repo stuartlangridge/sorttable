@@ -2,10 +2,12 @@ JavaScript client-side sortable tables
 
 See http://www.kryogenix.org/code/browser/sorttable/ for details and FAQ.
 
+If you just want sorttable.js itself, it's in the `sorttable/` folder.
+
 Running the tests:
 grunt test
 
-Requires various things, including phantomjs, to be around. To get phantomjs, `sudo apt-get install phantomjs`; to get the test dependencies, `npm install`.
+To get the test dependencies, `npm install`.
 
 To add new tests, edit tests/test-definitions.json and add a new item to the top-level "tests" var. For example,
 
