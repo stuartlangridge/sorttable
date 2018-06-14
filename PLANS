@@ -24,3 +24,5 @@ Fix getinnertext to work with many different types of content (unicode, html, em
 Fix mixed content warning in I by not using javascript:void as link dest: use :// instead or similar
 Numeric comparisons are the wrong way around: should be bb-aa not aa-bb
 A cell with a single "," in it makes sorttable diagnose the column as containing floats. See email from Michel R
+Handle multiple tbody elements
+Add debug console

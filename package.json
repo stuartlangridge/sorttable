@@ -4,9 +4,6 @@
   "scripts": {
     "test": "grunt test"
   },
-  "config": {
-    "puppeteer_skip_chromium_download": true
-  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-cli": "^1.2.0",
