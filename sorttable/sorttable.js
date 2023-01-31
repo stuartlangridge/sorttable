@@ -167,29 +167,31 @@ sorttable = {
   guessType: function(table, column) {
     // guess the type of a column based on its first non-blank row
     sortfn = sorttable.sort_alpha;
-    for (var i=0; i<table.tBodies[0].rows.length; i++) {
-      text = sorttable.getInnerText(table.tBodies[0].rows[i].cells[column]);
-      if (text !== '') {
-        if (text.match(/^-?[£$¤]?[\d,.]+%?$/)) {
-          return sorttable.sort_numeric;
-        }
-        // check for a date: dd/mm/yyyy or dd/mm/yy
-        // can have / or . or - as separator
-        // can be mm/dd as well
-        possdate = text.match(sorttable.DATE_RE);
-        if (possdate) {
-          // looks like a date
-          first = parseInt(possdate[1], 10);
-          second = parseInt(possdate[2], 10);
-          if (first > 12) {
-            // definitely dd/mm
-            return sorttable.sort_ddmm;
-          } else if (second > 12) {
-            return sorttable.sort_mmdd;
-          } else {
-            // looks like a date, but we can't tell which, so assume
-            // that it's dd/mm (English imperialism!) and keep looking
-            sortfn = sorttable.sort_ddmm;
+    if (table.tBodies[0]){
+      for (var i=0; i<table.tBodies[0].rows.length; i++) {
+        text = sorttable.getInnerText(table.tBodies[0].rows[i].cells[column]);
+        if (text !== '') {
+          if (text.match(/^-?[£$¤]?[\d,.]+%?$/)) {
+            return sorttable.sort_numeric;
+          }
+          // check for a date: dd/mm/yyyy or dd/mm/yy
+          // can have / or . or - as separator
+          // can be mm/dd as well
+          possdate = text.match(sorttable.DATE_RE);
+          if (possdate) {
+            // looks like a date
+            first = parseInt(possdate[1], 10);
+            second = parseInt(possdate[2], 10);
+            if (first > 12) {
+              // definitely dd/mm
+              return sorttable.sort_ddmm;
+            } else if (second > 12) {
+              return sorttable.sort_mmdd;
+            } else {
+              // looks like a date, but we can't tell which, so assume
+              // that it's dd/mm (English imperialism!) and keep looking
+              sortfn = sorttable.sort_ddmm;
+            }
           }
         }
       }
